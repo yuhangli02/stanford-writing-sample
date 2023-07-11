@@ -1,5 +1,5 @@
 ---
-title : HW06: Generating reproducible social science research
+title : HW06 Generating reproducible social science research
 output:
   github_document
 subtitle: Analysis of civil asset forfeiture data 
@@ -7,9 +7,11 @@ author: Yuhang Li
 date: July 11, 2023 
 ---
 
+# Description of repository 
 This repository is used for the data analysis project for HW06. My project aims to analyze civil asset forfeiture data provided by [Institute for Justice](https://ij.org/report/policing-for-profit-3/policing-for-profit-data/) to answer the research question "What trends does revenue generated from civil asset forfeiture follow, and how are forfeiture funds allocated?"   
 
 ##1. Description of data sets used 
+
 I used revenue and expense data sets at the national level and specifically for Illinois. 
 
 * forfeit_raw contains the raw data sets downloaded from the [Institute for Justice](https://ij.org/report/policing-for-profit-3/policing-for-profit-data/) website. 
