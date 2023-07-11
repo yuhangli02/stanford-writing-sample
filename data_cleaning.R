@@ -30,20 +30,19 @@ national_exp_cleaned <- national_expense %>%
          "year" = "Year",
          "exp_type" = "EXP_TYPE",
          "exp_amt" = "EXP_AMT",
-         "state" = "State")
+         "state" = "State") %>% 
+  mutate(exp_type = tolower(exp_type))
 
 #join state level data for Illinois 
 IL_joined <- illinois_revenue %>% 
-  left_join(illinois_expense, by = "ID")
+  full_join(illinois_expense, by = "ID")
 
 #clean joined data 
 illinois_cleaned <- IL_joined %>%
-  #select necessary variables
-  select(ID, IL_Agency, IL_Total_Amt_Forfeited, IL_Total_Nbr_of_Forfeitures, IL_Share, IL_Agency_Share, PROP_TYPE, PROCD_TYPE, YEAR, EXP_AMT, EXP_TYPE) %>% 
-  #rename variables
+  select(ID, IL_Agency, REV, IL_Total_Nbr_of_Forfeitures, IL_Share, IL_Agency_Share, PROP_TYPE, PROCD_TYPE, YEAR, EXP_AMT, EXP_TYPE) %>% 
   rename("id" = "ID",
          "agency" = "IL_Agency",
-         "total_amt_forfeited" = "IL_Total_Amt_Forfeited",
+         "revenue" = "REV",
          "nbr_forfeit" = "IL_Total_Nbr_of_Forfeitures",
          "state_share" = "IL_Share",
          "agency_share" = "IL_Agency_Share",
@@ -51,7 +50,7 @@ illinois_cleaned <- IL_joined %>%
          "procd_type" = "PROCD_TYPE",
          "year" = "YEAR",
          "exp_amt" = "EXP_AMT",
-         "exp_type" = "EXP_TYPE") 
+         "exp_type" = "EXP_TYPE")    
 
 
 #export cleaned data sets 
