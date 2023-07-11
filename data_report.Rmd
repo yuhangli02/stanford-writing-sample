@@ -1,11 +1,11 @@
 ---
 title: "Profit from Policing : Allocation of Civil Asset Forfeiture Funds"
 author: "Yuhang Li"
-date: "7/10/2023"
+date: "7/10/2023" 
 output: github_document
 ---
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 ```
 
 ```{r load packages}
@@ -269,7 +269,8 @@ The analysis of this report may be subject to certain limitations. First, the pr
 
 Secondly, it is likely that the type of property being confiscated impacts the need for civil asset forfeiture laws. For instance, cases involving drugs and other illegal substances may require civil asset forfeiture to a larger degree than cases involving currency or vehicles. Civil asset forfeiture of illegal substances may be particularly effective in preventing further dissemination and harm. Even if the owner of illegal drugs is not convicted of crime, confiscation of the substance likely reduces its presence in the country. The provided data set does not specify what the "other" category of property type contains, so cases involving drug activity cannot be analyzed. Given more time, I would research more on the relationship between civil asset forfeiture and different types of property forfeited. 
 
-#References 
+#References
+
 [Institute for Justice](https://ij.org/report/policing-for-profit-3/policing-for-profit-data/)
 
 [Illinois Policy Reports](https://www.illinoispolicy.org/reports/asset-forfeiture-in-illinois/)
