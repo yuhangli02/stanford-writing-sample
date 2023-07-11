@@ -57,6 +57,10 @@ specifically for Illinois.
 -   The files should be executed in the following order from first to
     last: **data_cleaning.R**, **data_analysis.Rmd**, and
     **data_report.Rmd**.
+-   **data_analysis_files/figure-gfm** contains the graphs and tables
+    generated from **data_analysis.Rmd**.
+-   **data_report_files/figure-gfm** contains the graphs and tables
+    generated from **data_report.Rmd**.
 
 ## 3. Packages required
 
