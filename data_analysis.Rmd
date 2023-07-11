@@ -1,0 +1,237 @@
+---
+title: "Data Analysis for Profit from Policing : Allocation of Civil Asset Forfeiture Funds"
+author: "Yuhang Li"
+date: "7/10/2023"
+output: github_document 
+---
+
+```{r load packages, warning=FALSE}
+#load required packages 
+library(tidyverse)
+library(knitr)
+library(scales)
+library(huxtable)
+```
+
+```{r load datasets}
+#load cleaned data sets 
+national_rev <- read.csv("forfeit_cleaned/national_rev_cleaned.csv")
+national_exp <- read.csv("forfeit_cleaned/national_exp_cleaned.csv")
+IL_cleaned <- read_csv("forfeit_cleaned/IL_cleaned.csv") 
+```
+
+```{r check datasets}
+#check data sets 
+head(national_rev)
+head(national_exp)
+head(IL_cleaned)
+```
+#Part 1: National level data 
+## Plot number of civil asset forfeiture cases per year 
+```{r cases per year, warning=FALSE}
+#plot number of civil asset forfeiture cases over years using line graph 
+forfeit_nb_years <- national_rev %>% 
+  ggplot(mapping = aes(x = year)) +
+  geom_freqpoly(color = "#144a74") +
+  labs(title = "Number of civil asset forfeiture cases over time",
+       x = "Year",
+       y = "Number of civil asset forfeiture cases") + 
+  theme_classic()   
+forfeit_nb_years 
+```
+
+## Analyze the trend of average revenue from civil asset forfeiture fund from 1986 to 2019
+```{r average revenue per year, warning=FALSE}
+#plot a bar graph of average revenue over years 
+avg_rev_year <- national_rev %>% 
+  group_by(year) %>% 
+  summarize(avg_rev = mean(rev, na.rm = TRUE)) %>% 
+  ggplot(mapping = aes(x = year, y = avg_rev)) +
+  geom_bar(stat = "identity", fill = "#144a74") +
+  labs(title = "Average revenue from civil asset forfeiture (1986 - 2019)",
+       x = "Year",
+       y = "Average revenue in U.S. dollars") +
+  theme_classic()
+avg_rev_year 
+```
+
+## Analyze the proportion of total expenditure for each expenditure type 
+```{r proportion of total exp}
+#write a function to find proportion of total expenditure for each expenditure type 
+exp_prop <- function(dataset) {
+  exp_prop_calc <- dataset %>% 
+    #filter by positive expenditure values 
+    filter(exp_type != "NA" & exp_amt > 0) %>%
+    group_by(exp_type) %>% 
+    summarize(total_exp = sum(exp_amt)) %>% 
+    #calculate proportion of total expenditure 
+    mutate(exp_pct = total_exp / sum(total_exp))
+  return(exp_prop_calc)
+}
+
+#find proportion of national expenditure 
+national_exp_type <- exp_prop(national_exp)
+
+#plot proportion of total expenditure by type of expenditure
+exp_type_bar <- national_exp_type %>% 
+  ggplot(aes(x = reorder(exp_type, exp_pct), y = exp_pct, fill = exp_type)) +
+  geom_bar(stat = "identity") +
+  coord_flip() + 
+  scale_fill_brewer(palette = "Set3") +
+  labs(title = "Proportion of forfeiture expenditure by expenditure type",
+       x = "Proportion of total expenditure",
+       y = "Expenditure Type",
+       fill = "Expenditure Type") +
+  theme_classic()
+exp_type_bar
+```
+
+## Find the percentage of civil asset forfeitures involving individuals convicted with crime, grouped by property type 
+```{r percent convicted}
+#find proportion of cases with positive convicted outcome by property type 
+percent_convicted <- national_rev %>%
+  group_by(prop_type) %>% 
+  summarize(percent_con = mean(conviction, na.rm = TRUE)) %>% 
+  filter(prop_type != "NA") %>% 
+  arrange(desc(percent_con))
+
+#format as table 
+percent_convicted %>% 
+  #convert to percentage 
+  mutate(percent_con = percent(percent_con, accuracy = 0.01)) %>% 
+  kable(caption = "Percentage of civil asset forfeitures with convicted outcomes",
+        col.names = c("Property type",
+                      "Percent convicted after seizure")
+  )      
+```
+##Find the top 10 and bottom 10 states that had the most and least civil asset forfeitures cases 
+```{r most and least cases}
+#find number of cases per state 
+cases_per_state <- national_rev %>% 
+  group_by(state) %>% 
+  summarize(count = n()) %>% 
+  filter(count > 60) %>% 
+  arrange(desc(count)) 
+
+#find top 10 states with most cases
+top_10 <- cases_per_state %>% 
+  head(10)
+
+#find bottom 10 states with least cases
+bottom_10 <- cases_per_state %>% 
+  tail(10)
+
+#combine the two groups
+combined_states <- rbind(top_10, bottom_10)
+
+#differentiate the two groups
+combined_states$group <- if_else(combined_states$state %in%
+                                   top_10$state,
+                                 "Top 10",
+                                 "Bottom 10")
+
+#plot bargraph 
+forfeit_rank_states <- combined_states %>% 
+  ggplot(mapping = aes(x = reorder(state, count), y = count, fill = group)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  scale_fill_manual(values = c("Top 10" = "#599e94",
+                               "Bottom 10" = "#d2980d")) +
+  labs(title = "Civil asset forfeiture cases 1986 - 2019",
+       subtitle = "States that had most and least number of cases",
+       x = "Number of civil asset forfeiture cases",
+       y = "State",
+       fill = "Group") + 
+  theme_classic()
+
+#print bargraph 
+forfeit_rank_states       
+```         
+
+#Part 2 : Illinois Data  
+## 
+```{r}
+IL_rev_property <- IL_cleaned %>% 
+  filter(prop_type != "NA" & revenue < 5000) %>% 
+  ggplot(mapping = aes(x = prop_type, y = revenue)) +
+  geom_boxplot() +
+  coord_flip() +
+  labs(title = "Revenue by type of property",
+       x = "revenue",
+       y = "property type") +
+  theme_classic()
+IL_rev_property   
+```
+```{r}
+
+selected_cols <- c("revenue", "exp_amt", "agency_share") 
+
+#for loop to calculate summary statistics for revenue, expenditure amount, 
+summary_stats <- list()
+for (col in selected_cols) {
+  column_summary <- summary(IL_cleaned[[col]], na.rm = TRUE)
+  summary_stats[[col]] <- column_summary    
+}
+
+summary_table <- hux(Variable = c("revenue", "expenditure", "agency share"),
+                     Min = c(0, 0, 0),
+                     Q1 = c(278, 0, 64.2),
+                     Median = c(714, 0, 175),
+                     Q3 = c(2094, 0, 538.4),
+                     Max = c(17396274, 3189760, 86450)) %>% 
+  set_all_padding(4) %>%
+  set_outer_padding(0) %>%
+  set_number_format(0) %>%
+  set_bold(row = 1, col = everywhere) %>%
+  set_bottom_border(row = 1, col = everywhere) %>%
+  set_width(0.4) %>%
+  set_caption("Summary statistics for revenue, expenditure, and agency share")
+
+summary_table
+```
+
+```{r}
+IL_avg <- IL_cleaned %>% 
+  #remove outlier 
+  filter(year != "2009") %>% 
+  group_by(year) %>% 
+  summarize(avg_rev = mean(revenue, na.rm = TRUE),
+            avg_exp = mean(exp_amt, na.rm = TRUE))
+
+IL_avg_rev <- IL_avg %>% 
+  ggplot(mapping = aes(x = year, y = avg_rev)) +
+  geom_freqpoly(stat = "identity", color = "#144a74") +
+  labs(title = "Average revenue from IL civil asset forfeiture (2000 - 2019)",
+       x = "Year",
+       y = "Average revenue in U.S. dollars") +
+  theme_classic()
+
+IL_avg_rev
+
+```
+
+
+
+```{r}
+IL_exp_type <- IL_cleaned %>% 
+  group_by(exp_type) %>% 
+  summarize(total_exp = sum(exp_amt)) %>% 
+  filter(exp_type != "NA") %>% 
+  mutate(exp_proportion = total_exp / sum(total_exp))
+IL_exp_type 
+
+IL_exp_type_pie <- IL_exp_type %>% 
+  ggplot(aes(x = "", y = exp_proportion, fill = exp_type)) +
+  geom_bar(stat = "identity", width = 1, color = "white") +
+  coord_polar("y") +
+  scale_fill_brewer(palette = "Set2") +
+  theme_classic() +
+  labs(title = "Proportion of total expenditure by type",
+       x = NULL,
+       y = NULL,
+       fill = "Type of Expenditure")
+IL_exp_type_pie
+```
+
+
+
