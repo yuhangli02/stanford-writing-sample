@@ -1,15 +1,10 @@
----
-title: "Data Analysis for Profit from Policing : Allocation of Civil Asset Forfeiture Funds"
-author: "Yuhang Li"
-date: "7/10/2023"
-output: github_document   
----
+Data Analysis for Profit from Policing : Allocation of Civil Asset
+Forfeiture Funds
+================
+Yuhang Li
+7/10/2023
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(warning = FALSE)
-```
-
-```{r load packages, message = FALSE}
+``` r
 #load required packages 
 library(tidyverse)
 library(knitr)
@@ -17,27 +12,80 @@ library(scales)
 library(huxtable)
 ```
 
-```{r load datasets}
+``` r
 #load cleaned data sets 
 national_rev <- read.csv("forfeit_cleaned/national_rev_cleaned.csv")
 national_exp <- read.csv("forfeit_cleaned/national_exp_cleaned.csv")
 IL_cleaned <- read_csv("forfeit_cleaned/IL_cleaned.csv", show_col_types = FALSE)  
 ```
 
-```{r check dataset rev}
+``` r
 #check data sets 
 head(national_rev)
 ```
-```{r check dataset exp}
+
+       ┌─────────────────────────────────────────────────────────────────
+       │ state   revenue_   year   unit_typ   prop_typ   rev   procd_ty  
+       │               id          e          e                pe        
+       ├─────────────────────────────────────────────────────────────────
+       │ AR           951   2018   OTHER                                 
+       │ AR           952   2018   OTHER                                 
+       │ AR           953   2018   OTHER                                 
+       │ AR           954   2018   OTHER                                 
+       │ AR           955   2018   OTHER                                 
+       │ AR           956   2018   OTHER                                 
+       └─────────────────────────────────────────────────────────────────
+
+Column names: state, revenue_id, year, unit_type, prop_type, rev,
+procd_type, conviction, case_id
+
+7/9 columns shown.
+
+``` r
 head(national_exp)
 ```
-```{r check dataset IL}
+
+             ┌────────────────────────────────────────────────────┐
+             │ expense_id   year   exp_type       exp_amt   state │
+             ├────────────────────────────────────────────────────┤
+             │        121   2017   court costs      10941   FL    │
+             │        122   2017   outside           1572   FL    │
+             │                     services                       │
+             │        123   2017   court costs       2450   FL    │
+             │        124   2017   outside            610   FL    │
+             │                     services                       │
+             │        125   2018   outside            668   FL    │
+             │                     services                       │
+             │        126   2017   travel and         500   FL    │
+             │                     training                       │
+             └────────────────────────────────────────────────────┘
+
+Column names: expense_id, year, exp_type, exp_amt, state
+
+``` r
 glimpse(IL_cleaned)
 ```
 
-# Part 1: National level data 
-## Plot number of civil asset forfeiture cases per year 
-```{r cases per year, warning=FALSE}
+    ## Rows: 98,153
+    ## Columns: 12
+    ## $ id             <dbl> 9472, 9473, 9474, 9475, 9476, 9477, 9478, 9479, 9480, 9…
+    ## $ agency         <chr> "CHICAGO POLICE DEPARTMENT", "OLYMPIA FIELDS POLICE DEP…
+    ## $ revenue        <dbl> 7613272, 196, 3667, 6700, 2157, 2167, 4629, 20076, 100,…
+    ## $ nbr_forfeit    <dbl> 5414, 1, 3, 1, 1, 1, 2, 6, 1, 1, 2, 1, 10, 4, 1, 5, 1, …
+    ## $ state_share    <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
+    ## $ agency_share   <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
+    ## $ prop_type      <chr> "currency", "currency", "currency", "vehicles", "curren…
+    ## $ procd_type     <lgl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
+    ## $ year           <dbl> 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2…
+    ## $ exp_amt        <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
+    ## $ exp_type       <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
+    ## $ exp_proportion <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
+
+# Part 1: National level data
+
+## Plot number of civil asset forfeiture cases per year
+
+``` r
 #plot number of civil asset forfeiture cases over years using line graph 
 forfeit_nb_years <- national_rev %>% 
   ggplot(mapping = aes(x = year)) +
@@ -49,8 +97,13 @@ forfeit_nb_years <- national_rev %>%
 forfeit_nb_years 
 ```
 
+    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+
+![](data_analysis_files/figure-gfm/cases%20per%20year-1.png)<!-- -->
+
 ## Analyze the trend of average revenue from civil asset forfeiture funds from 1986 to 2019
-```{r average revenue per year, warning=FALSE}
+
+``` r
 #plot a bar graph of average revenue over years 
 avg_rev_year <- national_rev %>% 
   group_by(year) %>% 
@@ -64,8 +117,11 @@ avg_rev_year <- national_rev %>%
 avg_rev_year 
 ```
 
-## Analyze the proportion of total expenditure for each expenditure type 
-```{r proportion of total exp}
+![](data_analysis_files/figure-gfm/average%20revenue%20per%20year-1.png)<!-- -->
+
+## Analyze the proportion of total expenditure for each expenditure type
+
+``` r
 #write a function to find proportion of total expenditure for each expenditure type 
 exp_prop <- function(dataset) {
   exp_prop_calc <- dataset %>% 
@@ -95,8 +151,11 @@ exp_type_bar <- national_exp_type %>%
 exp_type_bar
 ```
 
-## Find the percentage of civil asset forfeitures involving individuals convicted with crime, grouped by property type 
-```{r percent convicted}
+![](data_analysis_files/figure-gfm/proportion%20of%20total%20exp-1.png)<!-- -->
+
+## Find the percentage of civil asset forfeitures involving individuals convicted with crime, grouped by property type
+
+``` r
 #find proportion of cases with positive convicted outcome by property type 
 percent_convicted <- national_rev %>%
   group_by(prop_type) %>% 
@@ -114,8 +173,18 @@ percent_convicted %>%
   )      
 ```
 
-## Find the top 10 and bottom 10 states that had the most and least civil asset forfeitures cases 
-```{r most and least cases}
+| Property type | Percent convicted after seizure |
+|:--------------|:--------------------------------|
+| other         | 17.84%                          |
+| real property | 17.07%                          |
+| currency      | 5.19%                           |
+| vehicles      | 4.95%                           |
+
+Percentage of civil asset forfeitures with convicted outcomes
+
+## Find the top 10 and bottom 10 states that had the most and least civil asset forfeitures cases
+
+``` r
 #find number of cases per state 
 cases_per_state <- national_rev %>% 
   group_by(state) %>% 
@@ -156,11 +225,15 @@ forfeit_rank_states <- combined_states %>%
 
 #print bargraph 
 forfeit_rank_states       
-```         
+```
 
-# Part 2 : Illinois Data  
-## Summary statistics 
-```{r summary stats}
+![](data_analysis_files/figure-gfm/most%20and%20least%20cases-1.png)<!-- -->
+
+# Part 2 : Illinois Data
+
+## Summary statistics
+
+``` r
 #select column names for which summary statistics will be calculated 
 selected_cols <- c("revenue", "exp_amt", "agency_share") 
 
@@ -190,9 +263,20 @@ summary_table <- hux(Variable = c("revenue", "expenditure", "agency share"),
 summary_table
 ```
 
-## Trend of IL average revenue per year from 2000 to 2019 
+         Summary statistics for revenue, expenditure, and agency share          
+               Variable     Min    Q1   Median     Q3        Max  
+             ─────────────────────────────────────────────────────
+               revenue        0   278      714   2094   17396274  
+               expenditur     0     0        0      0    3189760  
+               e                                                  
+               agency         0    64      175    538      86450  
+               share                                              
 
-```{r average revenue IL}
+Column names: Variable, Min, Q1, Median, Q3, Max
+
+## Trend of IL average revenue per year from 2000 to 2019
+
+``` r
 #find average revenue per year
 IL_avg <- IL_cleaned %>% 
   #remove outlier 
@@ -210,12 +294,13 @@ IL_avg_rev <- IL_avg %>%
   theme_classic()
 
 IL_avg_rev
-
 ```
 
+![](data_analysis_files/figure-gfm/average%20revenue%20IL-1.png)<!-- -->
 
-## Boxplot of average revenue by property type 
-```{r boxplot rev}
+## Boxplot of average revenue by property type
+
+``` r
 #plot a boxplot of forfeiture revenue by property type 
 IL_rev_property <- IL_cleaned %>% 
   filter(prop_type != "NA" & revenue < 5000) %>% 
@@ -229,12 +314,18 @@ IL_rev_property <- IL_cleaned %>%
 IL_rev_property   
 ```
 
-Since distribution of variables are highly skewed, analysis of expenditure is better done by calculating the proportion of total expenditure of each type of expense and visualizing the results in a pie chart.
+![](data_analysis_files/figure-gfm/boxplot%20rev-1.png)<!-- -->
 
-## Pie chart to analyze proportion of total expenditure by expenditure type 
+Since distribution of variables are highly skewed, analysis of
+expenditure is better done by calculating the proportion of total
+expenditure of each type of expense and visualizing the results in a pie
+chart.
 
-` 
-```{r exp by type IL}
+## Pie chart to analyze proportion of total expenditure by expenditure type
+
+\`
+
+``` r
 #use previously created function to compute proportion of total expenditure
 IL_exp_type <- exp_prop(IL_cleaned)
 
@@ -253,5 +344,4 @@ IL_exp_type_pie <- IL_exp_type %>%
 IL_exp_type_pie
 ```
 
-
-
+![](data_analysis_files/figure-gfm/exp%20by%20type%20IL-1.png)<!-- -->
