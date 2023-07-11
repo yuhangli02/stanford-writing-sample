@@ -1,10 +1,6 @@
 ---
-title : "HW06:Generating reproducible social science research" 
 output:
   github_document
-subtitle: "Analysis of civil asset forfeiture data""
-author: "Yuhang Li""
-date: "July 11, 2023"" 
 ---
 
 # Description of repository 
