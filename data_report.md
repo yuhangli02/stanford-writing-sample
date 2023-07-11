@@ -159,18 +159,19 @@ transparency about how forfeiture funds are acquired and used.
                agency         0    64      175    538      86450  
                share                                              
 
-Column names: Variable, Min, Q1, Median, Q3, Max The above table shows
-the summary statistics for the revenue gained from forfeiture,
-expenditure amount of forfeiture funds, and the amount of revenue the
-agency gains in Illinois. The median and the maximum value differ by an
-extreme amount, which suggests that the distribution of the three
-variables is highly skewed and has a lot of outliers. Assuming correct
-data entry, this could indicate that revenue and expenditure funds in
-Illinois vary greatly between different agencies. For instance, Chicago
-Police Department has a relatively high amount of revenue compared to
-other agencies in Illinois. Size of agency, number of employees, and
-surveillance area can all influence the amount of funds gained and
-spent.
+Column names: Variable, Min, Q1, Median, Q3, Max
+
+The above table shows the summary statistics for the revenue gained from
+forfeiture, expenditure amount of forfeiture funds, and the amount of
+revenue the agency gains in Illinois. The median and the maximum value
+differ by an extreme amount, which suggests that the distribution of the
+three variables is highly skewed and has a lot of outliers. Assuming
+correct data entry, this could indicate that revenue and expenditure
+funds in Illinois vary greatly between different agencies. For instance,
+Chicago Police Department has a relatively high amount of revenue
+compared to other agencies in Illinois. Size of agency, number of
+employees, and surveillance area can all influence the amount of funds
+gained and spent.
 
 ![](data_report_files/figure-gfm/average%20revenue%20IL-1.png)<!-- -->
 
@@ -199,7 +200,7 @@ on community programs. This suggests that civil asset forfeiture is a
 crucial component of the finances of local agencies and largely
 contributes to the purchase of equipment and other capital projects.
 
-#Conclusion
+# Conclusion
 
 Every year, law enforcement agencies gain large amounts of revenue from
 cash, vehicles, and property confiscations from civilians. Data analysis
@@ -233,7 +234,7 @@ contains, so cases involving drug activity cannot be analyzed. Given
 more time, I would research more on the relationship between civil asset
 forfeiture and different types of property forfeited.
 
-#References
+# References
 
 [Institute for
 Justice](https://ij.org/report/policing-for-profit-3/policing-for-profit-data/)
