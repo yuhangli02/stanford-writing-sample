@@ -1,6 +1,7 @@
 ---
+title: "HW06: Generating reproducible social science research"
 output:
-  github_document
+  github_document          
 ---
 
 # Description of repository 
