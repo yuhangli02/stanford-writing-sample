@@ -15,9 +15,10 @@ enforcement tool to reduce material-related crime such as drug sales or
 vehicle crimes. However, the policy has also been criticized for its
 abusive use by police officers who seize cash and property from innocent
 civilians with the incentive to generate revenue. Therefore, it is
-important for policy makers to determine the pattern of civil asset
-forfeiture funds. What trends does revenue generated from civil asset
-forfeiture follow, and how are forfeiture funds spent?
+important for policy makers to determine the source and allocation of
+civil asset forfeiture funds. In particular, what trends does revenue
+generated from civil asset forfeiture follow, and how are forfeiture
+funds spent?
 
 This data analysis report aims to examine patterns in expenditure and
 revenue of civil asset forfeiture funds over time. The report uses
@@ -43,6 +44,8 @@ in Illinois, the state with the highest number of forfeiture cases.
 # Data Analysis
 
 ## Part 1 : National Revenue and Expenditure of Civil Asset Forfeiture Funds (1986 - 2019)
+
+### Variations in national revenue
 
 Civil asset forfeiture existed for a long time in the United States but
 attracted increased attention in the 1980s as illegal drug activity
@@ -76,17 +79,21 @@ spike in revenues. If more time was given, I would conduct more detailed
 research on changes to civil asset forfeitures laws in 2014 and 2015 in
 different states.
 
+### Expenditure proportions
+
 ![](data_report_files/figure-gfm/proportion%20of%20total%20exp-1.png)<!-- -->
 
 An analysis of expenditure data on the national level shows that the
 highest proportion of total expenditure is spent on capital expenditures
-(0.36) and the lowest proportion is spent on victim compensation
-(0.001). This suggests that almost no funds are allocated to services
-for victims and communities and that most of the funds gained from
-forfeiture are allocated to improving the facilities or equipment of law
-enforcement agencies. In the case that property is taken from innocent
-individuals, the revenue is not paid back to the community but instead
-directed to the finances of law enforcement agencies.
+(36%) and the lowest proportion is spent on victim compensation (0.10%).
+This suggests that almost no funds are allocated to services for victims
+and communities and that most of the funds gained from forfeiture are
+allocated to improving the facilities or equipment of law enforcement
+agencies. In the case that property is taken from innocent individuals,
+the revenue is not paid back to the community but instead directed to
+the finances of law enforcement agencies.
+
+### Conviction outcomes
 
 The national level data set also provides information on whether the
 individuals whose property is confiscated end up being convicted or not.
@@ -111,6 +118,8 @@ vehicles, are actually from innocent individuals. These individuals
 often do not have the resources or means to file a case and regain their
 lost property.
 
+### Variations by state
+
 Since different states have different laws regarding civil asset
 forfeiture, it may be useful to examine revenue and expense patterns at
 the state level. The following graph shows the top 10 states that had
@@ -126,7 +135,7 @@ states. The ten states that had the least number of civil asset
 forfeitures only had several hundred cases, while the ten states that
 had the most civil asset forfeitures generally had 25,000 to 100,000
 cases. The state with the highest number of occurrences is Illinois with
-98153 cases and the state with the lowest number of occurrences is West
+98,153 cases and the state with the lowest number of occurrences is West
 Virginia with only 114 cases. This suggests the existence of a wide
 disparity in civil asset forfeiture occurrences in the United States.
 Civil asset forfeiture is much more popular in some states than in
@@ -149,6 +158,8 @@ allegedly having been used in the commission of any crimes. A large
 percentage of revenue profits state agencies with the rest shared by the
 federal government. Reform policies are in progress to provided more
 transparency about how forfeiture funds are acquired and used.
+
+### Summary statistics
 
          Summary statistics for revenue, expenditure, and agency share          
                Variable     Min    Q1   Median     Q3        Max  
@@ -173,6 +184,8 @@ compared to other agencies in Illinois. Size of agency, number of
 employees, and surveillance area can all influence the amount of funds
 gained and spent.
 
+### Average revenue over time
+
 ![](data_report_files/figure-gfm/average%20revenue%20IL-1.png)<!-- -->
 
 The graph above analyzes the trend of average revenue over the years
@@ -184,6 +197,8 @@ drop in average revenue may be stricter regulations regarding
 forfeitures. In recent years, seizures and forfeitures must be publicly
 reported and a substantial proof of crime upon seizure is emphasized by
 the government.
+
+### Expenditure proportions in Illinois
 
 Since distribution of variables are highly skewed, analysis of
 expenditure is better done by calculating the proportion of total
@@ -236,10 +251,13 @@ forfeiture and different types of property forfeited.
 
 # References
 
-[Institute for
-Justice](https://ij.org/report/policing-for-profit-3/policing-for-profit-data/)
+“Data Sources.” Institute for Justice. July 10, 2023. [Institute for
+Justice](https://ij.org/report/policing-for-profit-3/policing-for-profit-data/).
 
-[Illinois Policy
-Reports](https://www.illinoispolicy.org/reports/asset-forfeiture-in-illinois/)
+Ruddell, Ben and Jackson-Green, Bryant. “Asset forfeiture in Illinois:
+What it is, where it happens, and reforms the state needs.” Illinois
+Policy. July 10, 2023.[Illinois Policy
+Reports](https://www.illinoispolicy.org/reports/asset-forfeiture-in-illinois/).
 
-[Data is Plural](https://www.data-is-plural.com/)
+“2022.01.05 edition.” Data is Plural. January 5, 2022. [Data is
+Plural](https://www.data-is-plural.com/)
